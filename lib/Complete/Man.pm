@@ -95,9 +95,3 @@ sub complete_manpage {
  $res = complete_manpage(word => 'gre', section => 1);
  # -> ['grep', 'grep-changelog', 'greytiff']
 
-
-=head1 TODO
-
-Read/parse C<index.db>
-
-=cut
