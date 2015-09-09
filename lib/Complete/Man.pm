@@ -8,8 +8,6 @@ use strict;
 use warnings;
 #use Log::Any '$log';
 
-use Complete;
-
 our %SPEC;
 require Exporter;
 our @ISA       = qw(Exporter);
@@ -94,4 +92,3 @@ sub complete_manpage {
  # only from certain section
  $res = complete_manpage(word => 'gre', section => 1);
  # -> ['grep', 'grep-changelog', 'greytiff']
-
