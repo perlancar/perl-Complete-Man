@@ -28,10 +28,6 @@ _
             req => 1,
             pos => 0,
         },
-        ci => {
-            summary => 'Whether to do case-insensitive search',
-            schema  => 'bool*',
-        },
         section => {
             summary => 'Only search from this section',
             schema  => 'str*',
@@ -75,7 +71,6 @@ sub complete_manpage {
     Complete::Util::complete_array_elem(
         word => $args{word},
         array => \@res,
-        ci => $args{ci},
     );
 }
 
