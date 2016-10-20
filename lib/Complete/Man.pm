@@ -28,7 +28,7 @@ sub _complete_manpage_or_section {
 
     my $sect = $args{section};
     if (defined $sect) {
-        $sect = "man$sect" unless $sect =~ /\Aman/;
+        $sect = [map {/\Aman/ ? $_ : "man$_"} split /\s*,\s*/, $sect];
     }
 
     return [] unless $ENV{MANPATH};
@@ -42,7 +42,7 @@ sub _complete_manpage_or_section {
         opendir my($dh), $dir or next;
         for my $sectdir (readdir $dh) {
             next unless $sectdir =~ /\Aman/;
-            next if $sect && $sect ne $sectdir;
+            next if $sect && !grep {$sectdir eq $_} @$sect;
             opendir my($dh), "$dir/$sectdir" or next;
             my @files = readdir($dh);
             for my $file (@files) {
@@ -89,8 +89,13 @@ _
             pos => 0,
         },
         section => {
-            summary => 'Only search from this section',
+            summary => 'Only search from specified section(s)',
             schema  => 'str*',
+            description => <<'_',
+
+Can also be a comma-separated list to allow multiple sections.
+
+_
         },
     },
     result_naked => 1,
