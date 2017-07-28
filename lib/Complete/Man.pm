@@ -19,6 +19,7 @@ sub _complete_manpage_or_section {
 
     my $which = shift;
     my %args = @_;
+    my $use_mandb = $args{use_mandb} // 1;
 
     if ($which eq 'section' && $ENV{MANSECT}) {
         return Complete::Util::complete_array_elem(
@@ -37,7 +38,7 @@ sub _complete_manpage_or_section {
     my @manpages;
     my %sections;
 
-    if (File::Which::which("apropos")) {
+    if ($use_mandb && File::Which::which("apropos")) {
         # it's simpler to just use 'apropos' to read mandb, instead of directly
         # reading dbm file and the screwed up situation of the availability of
         # *DBM_File.
@@ -115,6 +116,10 @@ _
 Can also be a comma-separated list to allow multiple sections.
 
 _
+        },
+        use_mandb => {
+            schema => ['bool*'],
+            default => 1,
         },
     },
     result_naked => 1,
