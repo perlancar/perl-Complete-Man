@@ -1,16 +1,19 @@
 package Complete::Man;
 
-# DATE
-# VERSION
-
 use 5.010001;
 use strict;
 use warnings;
 #use Log::Any '$log';
 
+use Exporter 'import';
+
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
+
 our %SPEC;
-require Exporter;
-our @ISA       = qw(Exporter);
+
 our @EXPORT_OK = qw(complete_manpage complete_manpage_section);
 
 sub _complete_manpage_or_section {
@@ -49,7 +52,7 @@ sub _complete_manpage_or_section {
         }
     } else {
         # in the absence of 'apropos', list the man files. slooow.
-        require Filename::Compressed;
+        require Filename::Type::Compressed;
 
         for my $dir (split /:/, $ENV{MANPATH}) {
             next unless -d $dir;
@@ -62,7 +65,7 @@ sub _complete_manpage_or_section {
                 for my $file (@files) {
                     next if $file eq '.' || $file eq '..';
                     my $chkres =
-                        Filename::Compressed::check_compressed_filename(
+                        Filename::Type::Compressed::check_compressed_filename(
                             filename => $file,
                         );
                     my $name = $chkres ?
